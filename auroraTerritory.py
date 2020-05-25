@@ -16,13 +16,15 @@ if __name__ == '__main__':
     pastaProjeto = arcpy.GetParameterAsText(2)
     territoryName = arcpy.GetParameterAsText(3)
     pointsClientes = arcpy.GetParameterAsText(4)
-    maximoCapacity = arcpy.GetParameterAsText(5)
-    minimoCapacity = arcpy.GetParameterAsText(6)
+    minimoCapacity = arcpy.GetParameterAsText(5)
+    maximoCapacity = arcpy.GetParameterAsText(6)
     quantidadeAreas = arcpy.GetParameterAsText(7)
     layerOutput = "{0}\\{1}\\tdlayer.lyr".format(pastaProjeto, territoryName)
 
     try:
         
+        arcpy.AddMessage("Iniciando Processo")
+
         gp.CreateTerritorySolution_TD(
             camadaEntrada,
             displayField,
@@ -31,12 +33,17 @@ if __name__ == '__main__':
             territoryName
         )
 
+        arcpy.AddMessage("Solucao criada com sucesso")
+        arcpy.AddMessage("Iniciando Importacao de Variaveis")
+
         gp.ImportVariablesBySpatialJoin_TD(
             layerOutput, 
             pointsClientes, 
             "Count"
             )
         
+        arcpy.AddMessage("Importacao Finalizada com Sucesso. Criando territorios, este processo levara alguns minutos")
+
         gp.SetupLevelCapacityConstraints_TD(
             layerOutput, 
             "Territories[1]", 
@@ -88,6 +95,8 @@ if __name__ == '__main__':
             "DO_NOT_AUTO_FILL_EXTENT", 
             "DO_NOT_OVERRIDE_CONSTRAINTS"
             )
+        
+        arcpy.AddMessage("Processo finalizado com sucesso!")
 
     except Exception as e:
 
