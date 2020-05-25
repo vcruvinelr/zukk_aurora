@@ -8,8 +8,6 @@ reload(sys)
 sys.setdefaultencoding('UTF8')
 locale.setlocale(locale.LC_TIME, "ptb")
 
-locale.setlocale(locale.LC_TIME, "ptb")
-
 if __name__ == '__main__':
     
     gp = arcgisscripting.create()
